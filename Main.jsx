@@ -16,7 +16,7 @@ export default function Main() {
 
     return (
         <main>
-            <form action={enterItems} className="add-ingredient-form">
+            <form action={enterItems} >
                 <input
                     type="text"
                     placeholder="e.g. oregano"
