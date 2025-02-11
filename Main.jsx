@@ -1,17 +1,25 @@
 import React from "react"
+import IngredientsList from "./Components/IngredientsList"
+import ClaudeRecipe from "./Components/ClaudeReceipe";
 
 export default function Main() {
 
-    const [ingredients, setIngredients] = React.useState([])
+    const [ingredients, setIngredients] = React.useState([]);
+    const [recipeShown, setRecipeShown] = React.useState(false);
 
-    const ingredientsListItems = ingredients.map(ingredient => (
-        <li key={ingredient}>{ingredient}</li>
-    ))
+    function toPascalCase(str) {
+        return str.replace(/\w+/g, 
+            w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+    }
     
-
     function enterItems(formData) {
-        const newIngredient = formData.get("ingredient")
+        const newIngredient = toPascalCase(formData.get("ingredient"))
         setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+    }
+
+    
+    function toggleRecipeShown() {
+        setRecipeShown(prevShown => !prevShown)
     }
 
     return (
@@ -27,21 +35,13 @@ export default function Main() {
                 <button>Add ingredient</button>
             </form>
             
-            {ingredients.length > 0 && <section>
-                
-                <h2>Ingredients on hand:</h2>
-                <ul className="ingredients-list" aria-live="polite">{ingredientsListItems}</ul>
-                
-                {ingredients.length > 3 && <div className="get-recipe-container">
-                    <div>
-                        <h3>Ready for a recipe?</h3>
-                        <p>Generate a recipe from your list of ingredients.</p>
-                    </div>
-                    <button>Get a recipe</button>
-                    </div>
-                } 
-            </section>}
-            
+            {ingredients.length > 0 && 
+                <IngredientsList
+                ingredients={ingredients}
+                toggleRecipeShown={toggleRecipeShown}
+            />                
+            }
+            {recipeShown && <ClaudeRecipe />}
         </main>
     )
 }
