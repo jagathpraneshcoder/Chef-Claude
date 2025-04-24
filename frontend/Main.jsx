@@ -41,7 +41,7 @@ export default function Main() {
                 toggleRecipeShown={toggleRecipeShown}
             />                
             }
-            {recipeShown && <ClaudeRecipe />}
+            {recipeShown && <ClaudeRecipe ingredients={ingredients} />}
         </main>
     )
 }
